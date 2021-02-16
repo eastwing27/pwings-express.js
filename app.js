@@ -11,7 +11,6 @@ const
     transactions = require('./routes/transactions');
     
 const passport = require('./auth/setup');
-const { body, validationResult } = require('express-validator');
 
 const app = express();
 
