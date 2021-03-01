@@ -13,14 +13,17 @@ const
     transactions = require('./routes/transactions');
 
 const argv = yargs(hideBin(process.argv)).argv;
+
+const getConfig = require('./helpers/configHelper').getConfig;
+const config = getConfig();
     
 const passport = require('./auth/setup');
 
 const app = express();
 
 const 
-    host = argv.host || '127.0.0.1',
-    port = argv.port || 3000;
+    host = argv.host || config.address.defaultHost,
+    port = argv.port || config.address.defaultPort;
 
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({extended: true}));
@@ -42,7 +45,7 @@ const
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/api', (req, res) => res.send('hi!'));
+app.get("/api", (req, res) => res.send('hi!'));
 app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/transactions", transactions);
@@ -52,7 +55,7 @@ app.use((request, response, next) => {
     response.status(404).send({ error: 'Not found' });
 });
 
-mongoose.connect("mongodb://localhost:27017/pwdb", { useUnifiedTopology: true }, err => {
+mongoose.connect(config.db.connectionString, { useUnifiedTopology: true }, err => {
     if (err)
         return console.error(err);
 
