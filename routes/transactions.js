@@ -25,18 +25,18 @@ router.post("/new", (request, response) =>
     protect(request.user)
         .then(
             sender => {
-                let body = request.body;
+                const body = request.body;
                 if (!body || !body.reciever || !body.amount)
                     return response.status(400).send({message: 'invalid data'});
                 
                 if (sender.email == body.reciever)
                     return response.status(400).send({message: "You can't send PW to yourself "});
 
-                var transaction = new Transaction();
+                const transaction = new Transaction();
                 prepare(transaction, sender.email, body.receiver, body.amount);
                 
                 if (!sender.balance || sender.balance < body.amount){
-                    var message = 'Not enough Parrot Wings';
+                    const message = 'Not enough Parrot Wings';
                     reject(transaction, message);
                     return response.status(400).send({message: message});
                 }

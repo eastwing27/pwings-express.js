@@ -34,7 +34,7 @@ router.get("/:email", (request, response) =>
     protectByEmail(request.user, request.params["email"])
         .then(
             () => {
-                var searchedEmail = request.params["email"];
+                const searchedEmail = request.params["email"];
                 User.findOne({"email": searchedEmail})
                 .then(  
                     doc => response.status(200).send(getDTO(doc)),

@@ -37,7 +37,7 @@ module.exports.refill = (user, amount) =>
         if (!amount)
             return reject("Amount is not set!");
 
-        var numAmount = parseInt(amount);
+        const numAmount = parseInt(amount);
         if (!(Number.isInteger(numAmount) && amount > 0))
             return reject ("Invalid amount value! Please set positive integer value");
 
