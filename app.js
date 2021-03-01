@@ -3,20 +3,24 @@ const
     session = require("express-session"),
     MongoStore = require("connect-mongo")(session),
     mongoose = require('mongoose'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    yargs = require('yargs/yargs'),
+    { hideBin } = require('yargs/helpers');
 
 const 
     auth = require('./routes/auth'),
     users = require('./routes/users');
     transactions = require('./routes/transactions');
+
+const argv = yargs(hideBin(process.argv)).argv;
     
 const passport = require('./auth/setup');
 
 const app = express();
 
 const 
-    host = !!process.argv[2] ? process.argv[2] : "127.0.0.1",
-    port = !!process.argv[3] ? process.argv[3] : 3000;
+    host = argv.host || '127.0.0.1',
+    port = argv.port || 3000;
 
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({extended: true}));
