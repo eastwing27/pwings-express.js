@@ -14,8 +14,7 @@ const
 
 const argv = yargs(hideBin(process.argv)).argv;
 
-const getConfig = require('./helpers/configHelper').getConfig;
-const config = getConfig();
+const config = require('./helpers/configHelper').getConfig();
     
 const passport = require('./auth/setup');
 

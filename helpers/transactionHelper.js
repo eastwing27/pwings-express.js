@@ -1,13 +1,11 @@
 const moment = require('moment');
 
-const { resolve } = require("path");
-
-function resolveAndSave(transaction, reason, result) {
+async function resolveAndSave(transaction, reason, result) {
     transaction.success = result;
     transaction.resultMessage = reason;
     transaction.time = moment.utc(new Date());
 
-    transaction.save((err, doc) =>{
+    await transaction.save((err, doc) =>{
         if (!!err)
             console.error(err);
     });
@@ -19,8 +17,8 @@ module.exports.prepare = (transaction, sender, reciever, amount) => {
     transaction.amount = amount;
 }
 
-module.exports.reject = (transaction, reason) => 
-    resolveAndSave(transaction, reason, false);
+module.exports.reject = async (transaction, reason) => 
+    await resolveAndSave(transaction, reason, false);
 
-module.exports.accept = (transaction) => 
-    resolveAndSave(transaction, 'accepted', true);
+module.exports.accept = async (transaction) => 
+    await resolveAndSave(transaction, 'accepted', true);
